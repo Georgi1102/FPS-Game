@@ -28,52 +28,12 @@ public class Movement : MonoBehaviour
     Vector3 velocity;
     #endregion
 
-   //Update called every frame
-    #region MethodUpdate
+   //Update called every frame   
     void Update()
     {
-        //checking if we are on the ground and reseting the Y velocity
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-        
-        if (isGrounded && velocity.y < 0)
-        {
-            velocity.y = 0;          
-        }
-        if (isGrounded)
-        {         
-            //you can not move and sprint while in the air         
-            if (Jump())
-            {
-                moveSpeed -= 1;
-            }
-            else if (Crouch())
-            {
-                moveSpeed -= 3;
-            }
-            else
-            {              
-                moveSpeed = 4f;
-                Run();              
-            }
-            
-        }
-       
-        // getting the horizontal and vertical  axis
-        float moveX = Input.GetAxis("Horizontal");     
-        float moveY = Input.GetAxis("Vertical");
-   
-        // simple movement
-        Vector3 move = (transform.right * moveX) + (transform.forward * moveY);
-        playerController.Move(move * walkingSpeed * Time.deltaTime);
-        
-        //Run();
-
-        //simple gravity TIME IS SQUARED due to the formula 
-        velocity.y += gravity * Time.deltaTime;
-        playerController.Move(velocity * Time.deltaTime);
-
+        MovementFinalChecks();
     }
-    #endregion
+    
 
     //Custom logic for the player
     #region CustomMethods
@@ -122,6 +82,49 @@ public class Movement : MonoBehaviour
             return false;
         }
 
+    }
+
+    private void MovementFinalChecks()
+    {
+        //checking if we are on the ground and reseting the Y velocity
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+
+        if (isGrounded && velocity.y < 0)
+        {
+            velocity.y = 0;
+        }
+        if (isGrounded)
+        {
+            //you can not move and sprint while in the air         
+            if (Jump())
+            {
+                moveSpeed -= 1;
+            }
+            else if (Crouch())
+            {
+                moveSpeed -= 3;
+            }
+            else
+            {
+                moveSpeed = 4f;
+                Run();
+            }
+
+        }
+
+        // getting the horizontal and vertical  axis
+        float moveX = Input.GetAxis("Horizontal");
+        float moveY = Input.GetAxis("Vertical");
+
+        // simple movement
+        Vector3 move = (transform.right * moveX) + (transform.forward * moveY);
+        playerController.Move(move * walkingSpeed * Time.deltaTime);
+
+        //Run();
+
+        //simple gravity TIME IS SQUARED due to the formula 
+        velocity.y += gravity * Time.deltaTime;
+        playerController.Move(velocity * Time.deltaTime);
     }
     #endregion
 

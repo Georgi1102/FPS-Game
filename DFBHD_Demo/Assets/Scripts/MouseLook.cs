@@ -17,14 +17,18 @@ public class MouseLook : MonoBehaviour
     
     void Update()
     {
-        //simple X/Y movement 
+        MouseLogic();
+    }
 
+    private void MouseLogic()
+    {
+        //simple X/Y movement 
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        // setting rotation impossible > 90
+        // setting rotation impossible > 80
         xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        xRotation = Mathf.Clamp(xRotation, -80f, 80f);
         transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
 
         playerBody.Rotate(Vector3.up, mouseX);
