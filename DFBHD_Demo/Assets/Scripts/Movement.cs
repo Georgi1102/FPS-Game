@@ -11,6 +11,8 @@ public class Movement : MonoBehaviour
   //  private Animator anim;
     public float healt = 20f;
 
+    private float crouchTime = 0.5f;
+
     //reference to the ground
     public Transform groundCheck;
     private float groundDistance = 0.4f;
@@ -24,31 +26,35 @@ public class Movement : MonoBehaviour
     private float moveSpeed = 4f;
     private float walkingSpeed;
     private float sprintSpeed = 7f;
+    private float crouchSpeed = 1.5f;
     private float gravity = -9.81f;
-    Vector3 velocity;
+    Vector3 velocity; 
+    
     #endregion
 
    //Update called every frame   
     void Update()
     {
-        MovementFinalChecks();
+        MovementFinalChecks();       
     }
     
 
     //Custom logic for the player
     #region CustomMethods
-    public void Run()
+    public bool Run()
     {
         //lets check if we are pressing shift 
         //you probably can not run backwards
         //lets check if we move forward and if you are on the ground 
-        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W) && isGrounded)
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.W) && isGrounded && !Crouch())
         {           
             walkingSpeed = sprintSpeed;
+            return true;
         }
         else
         {
             walkingSpeed = moveSpeed;
+            return false;
         }
 
     }
@@ -56,33 +62,34 @@ public class Movement : MonoBehaviour
     public bool Jump()
     {
         //lets check if we are pressing space 
-        if (Input.GetKey(KeyCode.Space))
+        if (Input.GetKey(KeyCode.Space) && !Crouch())
         {
             velocity.y = Mathf.Sqrt(jumpHeigt * -2f * gravity);//adding gravity pull down 
             return true;
         }
         return false;
-    }
+    }  
 
     public bool Crouch()
     {
         //lets check if we are pressing C 
         if (Input.GetKey(KeyCode.C))
-        {
-            playerController.height = 1.0f;
+        {           
             velocity.y += (gravity * Time.deltaTime) * 3f; // adding force to crowch for faster crouch     
-            velocity.y *= 10f;
-           
-            playerController.Move(velocity * Time.deltaTime);//moving the body downwards
+            velocity.y *= 10f;          
+            playerController.height = Mathf.MoveTowards(playerController.height, 1.0f, Time.deltaTime / crouchTime);           
             return true;
         }
         else
-        {
-            playerController.height = 1.9f;          
+        {         
+            playerController.height = Mathf.MoveTowards(playerController.height, 1.9f, Time.deltaTime / crouchTime);        
             return false;
         }
 
     }
+
+   
+
 
     private void MovementFinalChecks()
     {
@@ -102,14 +109,15 @@ public class Movement : MonoBehaviour
             }
             else if (Crouch())
             {
-                moveSpeed -= 3;
+
+                walkingSpeed = crouchSpeed;
             }
             else
             {
                 moveSpeed = 4f;
                 Run();
             }
-
+           
         }
 
         // getting the horizontal and vertical  axis
