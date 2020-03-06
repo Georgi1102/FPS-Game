@@ -58,11 +58,13 @@ public class PlayerWeapon : MonoBehaviour
             return;
         }
 
-        if (Input.GetKey(KeyCode.W) && !aim.Aim() && !movement.Run() && !movement.Crouch())
+        if (movement.isGrounded && !aim.Aim() && !movement.Run() && !movement.Crouch())
         {
-            walkingAnimation.Play("MoveAnimation");
-        }
-        
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+            {
+                walkingAnimation.Play("MoveAnimation");
+            }                     
+        }    
 
         if (movement.Run() && !aim.Aim() && !movement.Jump())
         {

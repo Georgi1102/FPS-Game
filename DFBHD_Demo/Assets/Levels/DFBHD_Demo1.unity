@@ -23614,6 +23614,9 @@ Animation:
   - {fileID: 7400000, guid: 8bda6d7c02ea58449be8beae88d6cc65, type: 2}
   - {fileID: 7400000, guid: 8bda6d7c02ea58449be8beae88d6cc65, type: 2}
   - {fileID: 7400000, guid: 8fe1b27647d1f64428aca10e3aa03f1c, type: 2}
+  - {fileID: 0}
+  - {fileID: 7400000, guid: 77cf675526be7ca40a08f5d5968d36c0, type: 2}
+  - {fileID: 7400000, guid: c2f9f0fc62d46ef4186520403bf0f8c3, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -28897,6 +28900,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6117659034886323697}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &764950316 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6117659034138151645, guid: e626ae163186035468a69400acf543a7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6117659034886323697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!111 &764950320
 Animation:
   m_ObjectHideFlags: 0
@@ -29695,6 +29704,8 @@ Animation:
   - {fileID: 7400000, guid: 68bbdc3d925cfca4cad40c8e564b5313, type: 2}
   - {fileID: 7400000, guid: f01045e7c2439344c8a13397e7560b27, type: 2}
   - {fileID: 7400000, guid: be90783509787e94eaf69cdd5cb90616, type: 2}
+  - {fileID: 7400000, guid: 58bcbe6cbfd5a874286e6f84b32fc35a, type: 2}
+  - {fileID: 0}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -77346,7 +77357,7 @@ PrefabInstance:
     - target: {fileID: 6117659034124914348, guid: e626ae163186035468a69400acf543a7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6117659034124914351, guid: e626ae163186035468a69400acf543a7,
         type: 3}
@@ -77448,6 +77459,31 @@ PrefabInstance:
       propertyPath: weapon
       value: 
       objectReference: {fileID: 631125961}
+    - target: {fileID: 6117659034272500283, guid: e626ae163186035468a69400acf543a7,
+        type: 3}
+      propertyPath: jump
+      value: 
+      objectReference: {fileID: 782381921}
+    - target: {fileID: 6117659034272500283, guid: e626ae163186035468a69400acf543a7,
+        type: 3}
+      propertyPath: camHolder
+      value: 
+      objectReference: {fileID: 764950316}
+    - target: {fileID: 6117659034272500283, guid: e626ae163186035468a69400acf543a7,
+        type: 3}
+      propertyPath: targetDirection.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117659034272500283, guid: e626ae163186035468a69400acf543a7,
+        type: 3}
+      propertyPath: targetDirection.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6117659034272500283, guid: e626ae163186035468a69400acf543a7,
+        type: 3}
+      propertyPath: tilt
+      value: 
+      objectReference: {fileID: 631125967}
     - target: {fileID: 6117659034272500287, guid: e626ae163186035468a69400acf543a7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -77501,7 +77537,7 @@ PrefabInstance:
     - target: {fileID: 6117659034272500287, guid: e626ae163186035468a69400acf543a7,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 15.679998
       objectReference: {fileID: 0}
     - target: {fileID: 6117659035588943990, guid: e626ae163186035468a69400acf543a7,
         type: 3}

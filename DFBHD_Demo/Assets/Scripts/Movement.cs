@@ -8,7 +8,6 @@ public class Movement : MonoBehaviour
     #region Variables 
     // reference to the player  
     public CharacterController playerController;
-  //  private Animator anim;
     public float healt = 20f;
 
     private float crouchTime = 0.5f;
@@ -17,8 +16,8 @@ public class Movement : MonoBehaviour
     public Transform groundCheck;
     private float groundDistance = 0.4f;
     public LayerMask groundMask;
-    private bool isGrounded;
-
+    public bool isGrounded;
+    public Animation jump;   
     //jump variables
     private float jumpHeigt = 1.5f;
 
@@ -28,14 +27,15 @@ public class Movement : MonoBehaviour
     private float sprintSpeed = 7f;
     private float crouchSpeed = 1.5f;
     private float gravity = -9.81f;
-    Vector3 velocity; 
-    
+    Vector3 velocity;
+    private float rotateSpeed = 3f;
     #endregion
+    private float speed = 0.1f;
 
-   //Update called every frame   
+    //Update called every frame   
     void Update()
-    {
-        MovementFinalChecks();       
+    {    
+        MovementFinalChecks();     
     }
     
 
@@ -62,13 +62,62 @@ public class Movement : MonoBehaviour
     public bool Jump()
     {
         //lets check if we are pressing space 
-        if (Input.GetKey(KeyCode.Space) && !Crouch())
+        if (Input.GetKeyUp(KeyCode.Space) && !Crouch())
         {
             velocity.y = Mathf.Sqrt(jumpHeigt * -2f * gravity);//adding gravity pull down 
+            jump.Play("JumpAnimation");
+            
             return true;
         }
         return false;
-    }  
+    }
+
+    private void Tilt()
+    {
+        
+        if (Input.GetKey(KeyCode.Q))
+        {
+           playerController.transform.rotation *= Quaternion.Euler(0, 0, 20 * Time.deltaTime * 10);
+
+            Quaternion t = playerController.transform.rotation * Quaternion.Euler(0, 0, 20 * Time.deltaTime * 10);
+            if (t.eulerAngles.z > 20)
+            {
+                t = Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, 20);
+            }
+
+            playerController.transform.rotation = t;
+
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            
+            playerController.transform.rotation *= Quaternion.Euler(0, 0, -20 * Time.deltaTime);
+
+            Quaternion t = playerController.transform.rotation * Quaternion.Euler(0, 0, -20 * Time.deltaTime);
+            if (t.eulerAngles.z > 20)
+            {
+                t = Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, -20);
+            }
+
+            playerController.transform.rotation = t;
+        }
+
+        else
+        {
+            playerController.transform.rotation *= Quaternion.Euler(0, 0, 0 * Time.deltaTime * 10);
+
+            Quaternion t = playerController.transform.rotation * Quaternion.Euler(0, 0, 0 * Time.deltaTime * 10);
+            if (t.eulerAngles.z > 0)
+            {
+                t = Quaternion.Euler(t.eulerAngles.x, t.eulerAngles.y, 0);
+            }
+
+            playerController.transform.rotation = t;
+
+        }
+    }
+
+
 
     public bool Crouch()
     {
@@ -89,19 +138,21 @@ public class Movement : MonoBehaviour
     }
 
    
-
-
     private void MovementFinalChecks()
     {
         //checking if we are on the ground and reseting the Y velocity
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
 
+        Tilt();
+
         if (isGrounded && velocity.y < 0)
-        {
+        {          
             velocity.y = 0;
         }
         if (isGrounded)
         {
+
+           
             //you can not move and sprint while in the air         
             if (Jump())
             {
